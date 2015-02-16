@@ -5,6 +5,7 @@ import sys
 
 from vee.managers.git import GitManager
 from vee.utils import call, makedirs, colour
+from vee.requirement import Requirement, AbstractRequirement
 
 
 class HomebrewManager(GitManager):

@@ -32,6 +32,14 @@ class BaseManager(object):
             self.requirement,
         )
 
+    def provisions(self):
+        """What AbstractRequirement(s) does this provide?"""
+        return []
+
+    def dependencies(self):
+        """What [Abstract]Requirement(s) does this need?"""
+        return []
+
     _environ_diff = None
 
     @property

@@ -116,3 +116,21 @@ class Requirement(object):
         self.manager.install()
 
 
+class AbstractManager(object):
+
+    def dependencies(self):
+        return []
+
+    def provisions(self):
+        return []
+
+
+class AbstractRequirement(object):
+
+    def __init__(self, package):
+        self.package = package
+        self.manager = AbstractManager()
+
+    def __str__(self):
+        return self.package
+
