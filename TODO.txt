@@ -1,7 +1,21 @@
 
-- `--checksum md5:xxx` for static packages: we are getting TONS of read errors either 
-  across the NFS or across HTTP.
-    - add a "prebake" pipeline, which is ['init', 'prebake']
+- `--checksum sha1:xxx` for static packages: we are getting TONS of read errors either 
+  across the NFS or across HTTP. This should be calculated during repackage,
+  before it even hits the disk (with a passthrough file object).
+
+  - Also support #md5=xxx in URL fragments.
+
+- `brew link --overwrite NAME` with --pseudo-homebrew.
+  - How can I specify a version?
+
+- Add meta envvars to `vee exec ...`.
+  - VEE_EXEC_ENVS: list of environment names
+  - VEE_EXEC_REPOS: list of repo names
+  - VEE_EXEC_PATHS: list of paths scanned for the runtime
+  - VEE_EXEC_PREFIX: primary path; for convenience, this is the first of VEE_EXEC_PATHS
+
+- add lots of cascading to foreign key contraints
+
 
 - pipeline_log table containing the stdout/err and metadata from each pipeline
   step. This would allow failed installs to tell you a quick `vee cat log:123`

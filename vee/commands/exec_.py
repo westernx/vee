@@ -29,6 +29,7 @@ from vee.requirements import Requirements
 def exec_(args):
 
     home = args.assert_home()
+    meta_env = {}
 
     if not (args.export or args.command or args.prefix):
         raise ValueError('Must either --prefix, --export, or provide a command')
@@ -44,6 +45,7 @@ def exec_(args):
         repo = home.get_env_repo(name or None) # Allow '' to be the default.
         args.environment = args.environment or []
         args.environment.append('%s/%s' % (repo.name, repo.branch_name))
+        meta_env.setdefault('VEE_EXEC_REPO', repo.name)
 
     # Requirements and requirement sets.
     req_args = []
@@ -63,6 +65,8 @@ def exec_(args):
     for name in args.environment or ():
         env = Environment(name, home=home)
         paths.append(env.path)
+        meta_env.setdefault('VEE_EXEC_ENV', name)
+        meta_env.setdefault('VEE_EXEC_PREFIX', env.path)
 
     if args.prefix:
         for path in paths:
@@ -92,6 +96,9 @@ def exec_(args):
 
     # Make sure setuptools is bootstrapped.
     bootstrap_environ(environ_diff)
+
+    meta_env['VEE_EXEC_PATH'] = ':'.join(paths)
+    environ_diff.update(meta_env)
 
     # Print it out instead of running it.
     if args.export:
